@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas</title>
+</head>
+
+<body>
+    <div>
+        <header>
+            <h1>Buscaminas</h1>
+
+            <nav>
+                <a href="index.html">Juego</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="https://github.com/franrucci" target="_blank" rel="noopener noreferrer">Código en Github</a>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <div>
+                    <div>
+                        <span>Minas</span>
+                        <span>010</span>
+                    </div>
+
+                    <div>
+                        <div>
+                            <label for="nombre-jugador">Jugador</label>
+                            <input type="text" name="nombreJugador" placeholder="Mínimo 3 letras" autocomplete="off">
+                        </div>
+
+                        <div>
+                            <select name="dificultad">
+                                <option value="facil" selected>Fácil</option>
+                                <option value="media">Media</option>
+                                <option value="dificil">Difícil</option>
+                            </select>
+                        </div>
+
+                        <button type="button">🙂</button>
+                    </div>
+
+                    <div>
+                        <span>Tiempo</span>
+                        <span>000</span>
+                    </div>
+                </div>
+
+                <div id="tablero" class="tablero">
+                </div>
+
+            </section>
+        </main>
+
+        <footer>
+            <small>Desarrollo y Arquitecturas Web - 2025</small>
+        </footer>
+    </div>
+</body>
+
+</html>
