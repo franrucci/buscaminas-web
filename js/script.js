@@ -401,4 +401,72 @@ document.addEventListener('DOMContentLoaded', function () {
         estado.minasRestantes = estado.minasTotales - estado.banderasColocadas;
         contadorMinas.textContent = formatearTresDigitos(estado.minasRestantes);
     }
+
+    function finalizarPartida(gano) {
+        estado.juegoTerminado = true;
+        detenerTemporizador();
+
+        var f, c;
+        for (f = 0; f < estado.filas; f = f + 1) {
+            for (c = 0; c < estado.columnas; c = c + 1) {
+                var celda = estado.matriz[f][c];
+
+                if (celda.tieneMina && !celda.revelada) {
+                    celda.elemento.className = 'celda celda-revelada celda-mina';
+                    celda.elemento.textContent = '💣';
+                }
+            }
+        }
+
+        if (gano) {
+            btnCara.textContent = '😎';
+            textoResultado.textContent = '¡Ganaste! Felicitaciones.';
+            mostrarModal('¡Ganaste, ' + estado.nombreJugador + '! Tiempo: ' + estado.tiempo + ' segundos.');
+        } else {
+            btnCara.textContent = '😵';
+            textoResultado.textContent = 'Perdiste. Tocaste una mina.';
+            mostrarModal('Perdiste, ' + (estado.nombreJugador || 'jugador') + '. Tocaste una mina.');
+        }
+    }
+
+    function iniciarTemporizador() {
+        estado.temporizadorIniciado = true;
+        estado.tiempo = 0;
+        contadorTiempo.textContent = formatearTresDigitos(0);
+
+        estado.intervaloTiempo = setInterval(function () {
+            estado.tiempo = estado.tiempo + 1;
+            contadorTiempo.textContent = formatearTresDigitos(estado.tiempo);
+        }, 1000);
+    }
+
+    function detenerTemporizador() {
+        if (estado.intervaloTiempo !== null) {
+            clearInterval(estado.intervaloTiempo);
+        }
+    }
+
+    function mostrarModal(mensaje) {
+        modalTexto.textContent = mensaje;
+        modal.style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        modal.style.display = 'none';
+    }
+
+    function formatearTresDigitos(numero) {
+        var n = Number(numero);
+        if (isNaN(n)) {
+            n = 0;
+        }
+        n = Math.max(-999, Math.min(999, n));
+        var texto;
+        if (n < 0) {
+            texto = '-0' + Math.abs(n);
+        } else {
+            texto = '000' + n;
+        }
+        return texto.slice(-3);
+    }
 });
