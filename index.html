@@ -4,61 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
     <title>Buscaminas</title>
 </head>
 
 <body>
-    <div>
-        <header>
-            <h1>Buscaminas</h1>
+    <div class="pagina">
+        <header class="encabezado">
+            <h1 class="encabezado-titulo">Buscaminas</h1>
 
-            <nav>
-                <a href="index.html">Juego</a>
-                <a href="contacto.html">Contacto</a>
-                <a href="https://github.com/franrucci" target="_blank" rel="noopener noreferrer">Código en Github</a>
+            <nav class="navegacion-principal">
+                <a href="index.html" class="navegacion-principal-enlace">Juego</a>
+                <a href="contacto.html" class="navegacion-principal-enlace">Contacto</a>
+                <a href="https://github.com/franrucci" class="navegacion-principal-enlace" target="_blank" rel="noopener noreferrer">Código en Github</a>
             </nav>
         </header>
 
-        <main>
-            <section>
-                <div>
-                    <div>
-                        <span>Minas</span>
-                        <span>010</span>
+        <main class="zona-juego">
+            <section class="marco-juego">
+                <div class="barra-juego">
+                    <div class="panel-numero">
+                        <span class="panel-numero-etiqueta">Minas</span>
+                        <span id="contador-minas" class="panel-numero-valor">010</span>
                     </div>
 
-                    <div>
-                        <div>
+                    <!-- nombre, dificultad, emoji -->
+                    <div class="barra-juego-controles-centrales">
+                        <div class="campo-nombre">
                             <label for="nombre-jugador">Jugador</label>
-                            <input type="text" name="nombreJugador" placeholder="Mínimo 3 letras" autocomplete="off">
+                            <input type="text" id="nombre-jugador" name="nombreJugador" placeholder="Mínimo 3 letras" autocomplete="off">
                         </div>
 
-                        <div>
-                            <select name="dificultad">
+                        <div class="campo-dificultad">
+                            <select id="dificultad-juego" name="dificultad">
                                 <option value="facil" selected>Fácil</option>
                                 <option value="media">Media</option>
                                 <option value="dificil">Difícil</option>
                             </select>
                         </div>
 
-                        <button type="button">🙂</button>
+                        <button type="button" id="boton-cara" class="boton-cara">🙂</button>
                     </div>
 
-                    <div>
-                        <span>Tiempo</span>
-                        <span>000</span>
+                    <!-- contador -->
+                    <div class="panel-numero">
+                        <span class="panel-numero-etiqueta">Tiempo</span>
+                        <span id="contador-tiempo" class="panel-numero-valor">000</span>
                     </div>
                 </div>
 
+                <p id="error-nombre-jugador" class="mensaje-error"></p>
+
+                <p id="texto-estado" class="texto-estado" aria-live="polite">
+                    Ingresa tu nombre, elige dificultad y pulsa la carita para comenzar.
+                </p>
+
+                <!-- tablero -->
                 <div id="tablero" class="tablero">
                 </div>
 
+                <p id="mensaje-final" class="mensaje-final"></p>
             </section>
         </main>
 
-        <footer>
+        <footer class="pie">
             <small>Desarrollo y Arquitecturas Web - 2025</small>
         </footer>
+
+        <!-- modal -->
+        <div id="modal-mensaje" class="modal">
+            <div class="modal-contenido">
+                <p id="modal-texto" class="modal-texto"></p>
+                <button type="button" id="modal-cerrar" class="btn btn--principal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </body>
 
