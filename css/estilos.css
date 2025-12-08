@@ -303,3 +303,170 @@ body {
         font-size: 12px;
     }
 }
+
+.fila-tablero {
+    display: flex;
+}
+
+.celda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin: 2px;
+    border-radius: 4px;
+    background: linear-gradient(145deg, #3b3b3b, #2a2a2a);
+    border: 1px solid #505050;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s ease, transform 0.05s ease;
+}
+
+.celda:hover {
+    background: #4b4b4b;
+    transform: translateY(-1px);
+}
+
+.celda-revelada {
+    background: #1f1f1f;
+    border-color: #666666;
+    cursor: default;
+}
+
+.celda-bandera {
+    color: #ffeb3b;
+}
+
+.celda-mina {
+    background: #b71c1c;
+    color: #ffffff;
+}
+
+.celda-n1 {
+    color: #03a9f4;
+}
+
+.celda-n2 {
+    color: #4caf50;
+}
+
+.celda-n3 {
+    color: #ff9800;
+}
+
+.celda-n4 {
+    color: #e91e63;
+}
+
+.celda-n5 {
+    color: #ff5722;
+}
+
+.celda-n6 {
+    color: #00bcd4;
+}
+
+.celda-n7 {
+    color: #9e9e9e;
+}
+
+.celda-n8 {
+    color: #ffc107;
+}
+
+.btn-principal {
+    background: #4caf50;
+    color: #ffffff;
+    font-weight: 600;
+    transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn-principal:hover {
+    background: #43a047;
+}
+
+.btn-principal:active {
+    transform: scale(0.97);
+}
+
+.contacto-titulo {
+    margin: 0 0 8px 0;
+    font-size: 19px;
+    text-align: center;
+}
+
+.contacto-intro {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #cccccc;
+    text-align: center;
+}
+
+.form-contacto {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-campo label {
+    font-size: 13px;
+    color: #dddddd;
+}
+
+.form-campo input,
+.form-campo textarea {
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #444444;
+    background: #111111;
+    color: #f5f5f5;
+    font-family: inherit;
+}
+
+.form-campo input:focus,
+.form-campo textarea:focus {
+    outline: 2px solid #4caf50;
+}
+
+.form-error {
+    min-height: 16px;
+    margin: 0;
+    font-size: 12px;
+    color: #ff7070;
+}
+
+.contacto-estado {
+    margin: 8px 0 0 0;
+    font-size: 12px;
+    text-align: center;
+    color: #cccccc;
+}
+
+@media (max-width: 600px) {
+    .celda {
+        width: 19px;
+        height: 19px;
+        margin: 2px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 420px) {
+    .celda {
+        width: 18px;
+        height: 18px;
+        margin: 1px;
+        font-size: 12px;
+    }
+}
