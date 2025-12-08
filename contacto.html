@@ -4,54 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
     <title>Contacto</title>
 </head>
 
 <body>
-    <div>
-        <header>
-            <h1>Buscaminas</h1>
+    <div class="pagina">
+        <header class="encabezado">
+            <h1 class="encabezado-titulo">Buscaminas</h1>
 
-            <nav>
-                <a href="index.html">Juego</a>
-                <a href="contacto.html">Contacto</a>
-                <a href="https://github.com/franrucci" target="_blank">Código en Github</a>
+            <nav class="navegacion-principal">
+                <a href="index.html" class="navegacion-principal-enlace">Juego</a>
+                <a href="contacto.html" class="navegacion-principal-enlace">Contacto</a>
+                <a href="https://github.com/franrucci" class="navegacion-principal-enlace" target="_blank">Código en
+                    Github</a>
             </nav>
         </header>
 
-        <main>
-            <section>
-                <h2>Contacto</h2>
-                <p>Si querés dejar un comentario completá el formulario.</p>
+        <main class="zona-juego">
+            <section class="marco-juego">
+                <h2 class="contacto-titulo">Contacto</h2>
+                <p class="contacto-intro">Si querés dejar un comentario completá el formulario.</p>
 
-                <form>
-                    <div>
+                <form id="form-contacto" class="form-contacto" novalidate>
+                    <div class="form-campo">
                         <label for="contacto-nombre">Nombre</label>
                         <input type="text" id="contacto-nombre" name="nombre" placeholder="Nombre">
-                        <p id="error-contacto-nombre"></p>
+                        <p id="error-contacto-nombre" class="form-error"></p>
                     </div>
 
-                    <div>
+                    <div class="form-campo">
                         <label for="contacto-email">Email</label>
                         <input type="text" id="contacto-email" name="email" placeholder="Email">
-                        <p id="error-contacto-email"></p>
+                        <p id="error-contacto-email" class="form-error"></p>
                     </div>
 
-                    <div>
+                    <div class="form-campo">
                         <label for="contacto-mensaje">Mensaje</label>
                         <textarea id="contacto-mensaje" name="mensaje" rows="4"
                             placeholder="Escribí tu mensaje (mínimo 6 caracteres)"></textarea>
-                        <p id="error-contacto-mensaje"></p>
+                        <p id="error-contacto-mensaje" class="form-error"></p>
                     </div>
 
-                    <button type="submit">Enviar mensaje</button>
+                    <button type="submit" class="btn btn-principal">Enviar mensaje</button>
 
-                    <p id="contacto-estado"></p>
+                    <p id="contacto-estado" class="contacto-estado"></p>
                 </form>
             </section>
         </main>
 
-        <footer>
+        <footer class="pie">
             <small>Desarrollo y Arquitecturas Web - 2025</small>
         </footer>
     </div>
