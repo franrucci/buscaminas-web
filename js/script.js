@@ -249,4 +249,156 @@ document.addEventListener('DOMContentLoaded', function () {
             tablero.appendChild(filaDiv);
         }
     }
+
+    function manejarClickIzquierdo(event) {
+        var nombreInput = entradaNombre.value;
+        if (!nombreEsValido(nombreInput)) {
+            estado.nombreJugador = null;
+            errorNombre.textContent = 'El nombre debe tener al menos 3 letras y solo letras/espacios.';
+            mostrarModal('Ingresa un nombre válido para comenzar a jugar.');
+            return;
+        }
+
+        if (estado.nombreJugador === null || estado.nombreJugador !== nombreInput.trim()) {
+            estado.nombreJugador = nombreInput.trim();
+            errorNombre.textContent = '';
+            textoEstado.textContent = 'Jugador: ' + estado.nombreJugador + ' | Dificultad: ' + descripcionDificultad(estado.dificultad) + '. Revela una casilla para continuar.';
+        }
+
+        if (estado.juegoTerminado) {
+            return;
+        }
+
+        var celdaDiv = event.currentTarget;
+        var fila = parseInt(celdaDiv.getAttribute('data-fila'), 10);
+        var columna = parseInt(celdaDiv.getAttribute('data-columna'), 10);
+        var celda = estado.matriz[fila][columna];
+
+        if (celda.revelada || celda.marcada) {
+            return;
+        }
+
+        if (!estado.temporizadorIniciado) {
+            iniciarTemporizador();
+        }
+
+        revelarCelda(celda);
+        verificarVictoria();
+    }
+
+    function manejarClickDerecho(event) {
+        event.preventDefault();
+
+        if (estado.juegoTerminado) {
+            return false;
+        }
+
+        if (!nombreEsValido(entradaNombre.value)) {
+            estado.nombreJugador = null;
+            errorNombre.textContent = 'El nombre debe tener al menos 3 letras y solo letras/espacios.';
+            mostrarModal('Ingresa un nombre válido para comenzar a jugar.');
+            return false;
+        }
+
+        var celdaDiv = event.currentTarget;
+        var fila = parseInt(celdaDiv.getAttribute('data-fila'), 10);
+        var columna = parseInt(celdaDiv.getAttribute('data-columna'), 10);
+        var celda = estado.matriz[fila][columna];
+
+        if (celda.revelada) {
+            return false;
+        }
+
+        if (celda.marcada) {
+            celda.marcada = false;
+            celda.elemento.textContent = '';
+            celda.elemento.className = 'celda';
+            estado.banderasColocadas = estado.banderasColocadas - 1;
+        } else {
+            celda.marcada = true;
+            celda.elemento.textContent = '🚩';
+            celda.elemento.className = 'celda celda-bandera';
+            estado.banderasColocadas = estado.banderasColocadas + 1;
+        }
+
+        actualizarContadorMinas();
+        return false;
+    }
+
+    function revelarCelda(celda) {
+        if (celda.revelada || celda.marcada) {
+            return;
+        }
+
+        celda.revelada = true;
+        celda.elemento.className = 'celda celda-revelada';
+
+        if (celda.tieneMina) {
+            celda.elemento.className = 'celda celda-revelada celda-mina';
+            celda.elemento.textContent = '💣';
+            finalizarPartida(false);
+            return;
+        }
+
+        estado.casillasSegurasPorRevelar = estado.casillasSegurasPorRevelar - 1;
+
+        if (celda.minasAlrededor > 0) {
+            celda.elemento.textContent = String(celda.minasAlrededor);
+            celda.elemento.className =
+                'celda celda-revelada celda-n' + String(celda.minasAlrededor);
+        } else {
+            expandirDesde(celda);
+        }
+    }
+
+    function expandirDesde(celdaInicial) {
+        var pila = [celdaInicial];
+        var direcciones = [
+            [-1, -1], [-1, 0], [-1, 1],
+            [0, -1], /*celda*/[0, 1],
+            [1, -1], [1, 0], [1, 1]
+        ];
+
+        while (pila.length > 0) {
+            var celda = pila.pop();
+            var f = celda.fila;
+            var c = celda.columna;
+            var i;
+
+            for (i = 0; i < direcciones.length; i = i + 1) {
+                var df = direcciones[i][0];
+                var dc = direcciones[i][1];
+                var nf = f + df;
+                var nc = c + dc;
+
+                if (nf >= 0 && nf < estado.filas && nc >= 0 && nc < estado.columnas) {
+                    var vecina = estado.matriz[nf][nc];
+
+                    if (!vecina.revelada && !vecina.marcada && !vecina.tieneMina) {
+                        vecina.revelada = true;
+                        estado.casillasSegurasPorRevelar = estado.casillasSegurasPorRevelar - 1;
+
+                        if (vecina.minasAlrededor > 0) {
+                            vecina.elemento.textContent = String(vecina.minasAlrededor);
+                            vecina.elemento.className = 'celda celda-revelada celda-n' + String(vecina.minasAlrededor);
+                        } else {
+                            vecina.elemento.className = 'celda celda-revelada';
+                            pila.push(vecina);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function verificarVictoria() {
+        if (estado.casillasSegurasPorRevelar === 0) {
+            finalizarPartida(true);
+        }
+    }
+
+    function actualizarContadorMinas() {
+        estado.minasRestantes = estado.minasTotales - estado.banderasColocadas;
+        contadorMinas.textContent = formatearTresDigitos(estado.minasRestantes);
+    }
 });
