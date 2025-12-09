@@ -1,63 +1,79 @@
-document.addEventListener('DOMContentLoaded', function () {
-    'use strict';
+'use strict';
 
-    var form = document.getElementById('form-contacto');
-    var inputNombre = document.getElementById('contacto-nombre');
-    var inputEmail = document.getElementById('contacto-email');
-    var inputMensaje = document.getElementById('contacto-mensaje');
+// VARIABLES GLOBALES
+var form;
+var inputNombre;
+var inputEmail;
+var inputMensaje;
+var errorNombre;
+var errorEmail;
+var errorMensaje;
+var textoEstado;
 
-    var errorNombre = document.getElementById('error-contacto-nombre');
-    var errorEmail = document.getElementById('error-contacto-email');
-    var errorMensaje = document.getElementById('error-contacto-mensaje');
+function manejarEnvioFormulario(evento) {
+    evento.preventDefault(); // no envia por defecto
 
-    var textoEstado = document.getElementById('contacto-estado');
+    errorNombre.textContent = '';
+    errorEmail.textContent = '';
+    errorMensaje.textContent = '';
+    textoEstado.textContent = '';
 
-    form.addEventListener('submit', function (evento) {
-        evento.preventDefault(); // no envia por defecto
+    var nombre = inputNombre.value.trim();
+    var email = inputEmail.value.trim();
+    var mensaje = inputMensaje.value.trim();
 
-        errorNombre.textContent = '';
-        errorEmail.textContent = '';
-        errorMensaje.textContent = '';
-        textoEstado.textContent = '';
+    var esValido = true;
 
-        var nombre = inputNombre.value.trim();
-        var email = inputEmail.value.trim();
-        var mensaje = inputMensaje.value.trim();
+    if (nombre.length < 3) {
+        errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
+        esValido = false;
+    }
 
-        var esValido = true;
+    var patronEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.length === 0) {
+        errorEmail.textContent = 'El email no puede estar vacío.';
+        esValido = false;
+    } else if (!patronEmail.test(email)) {
+        errorEmail.textContent = 'Ingresa un email válido.';
+        esValido = false;
+    }
 
-        if (nombre.length < 3) {
-            errorNombre.textContent = 'El nombre debe tener al menos 3 caracteres.';
-            esValido = false;
-        }
+    if (mensaje.length <= 5) {
+        errorMensaje.textContent = 'El mensaje debe tener más de 5 caracteres.';
+        esValido = false;
+    }
 
-        var patronEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email.length === 0) {
-            errorEmail.textContent = 'El email no puede estar vacío.';
-            esValido = false;
-        } else if (!patronEmail.test(email)) {
-            errorEmail.textContent = 'Ingresa un email válido.';
-            esValido = false;
-        }
+    if (!esValido) {
+        textoEstado.textContent = 'Por favor, corregí los errores antes de enviar.';
+        return;
+    }
 
-        if (mensaje.length <= 5) {
-            errorMensaje.textContent = 'El mensaje debe tener más de 5 caracteres.';
-            esValido = false;
-        }
+    var destinatario = 'franrucci01@gmail.com';
+    var asunto = 'Consulta desde el Buscaminas';
+    var cuerpo = 'Nombre: ' + nombre + '\n' + 'Email: ' + email + '\n\n' + 'Mensaje:\n' + mensaje;
+    var mailtoUrl = 'mailto:' + encodeURIComponent(destinatario) + '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
 
-        if (!esValido) {
-            textoEstado.textContent = 'Por favor, corregí los errores antes de enviar.';
-            return;
-        }
+    textoEstado.textContent = 'Abriendo tu aplicación de correo...';
 
-        var destinatario = 'franrucci01@gmail.com';
-        var asunto = 'Consulta desde el Buscaminas';
-        var cuerpo = 'Nombre: ' + nombre + '\n' + 'Email: ' + email + '\n\n' + 'Mensaje:\n' + mensaje;
+    window.location.href = mailtoUrl;
+}
 
-        var mailtoUrl = 'mailto:' + encodeURIComponent(destinatario) + '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(cuerpo);
+// ===============================
+// INICIALIZACIÓN
+// ===============================
+function inicializarFormularioContacto() {
+    form = document.getElementById('form-contacto');
+    inputNombre = document.getElementById('contacto-nombre');
+    inputEmail = document.getElementById('contacto-email');
+    inputMensaje = document.getElementById('contacto-mensaje');
 
-        textoEstado.textContent = 'Abriendo tu aplicación de correo...';
+    errorNombre = document.getElementById('error-contacto-nombre');
+    errorEmail = document.getElementById('error-contacto-email');
+    errorMensaje = document.getElementById('error-contacto-mensaje');
 
-        window.location.href = mailtoUrl;
-    });
-});
+    textoEstado = document.getElementById('contacto-estado');
+
+    form.addEventListener('submit', manejarEnvioFormulario);
+}
+
+document.addEventListener('DOMContentLoaded', inicializarFormularioContacto);
